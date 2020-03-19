@@ -73,8 +73,8 @@ class _HomeState extends State<Home> {
 
 ## Screenshot of Material Alert
 
-![image](screenshots/example1.png)
+![image](screenshots/material_example.png)
 
 ## Screenshot of Cupertino Alert
 
-![image](screenshots/example2.png)
+![image](screenshots/cupertino_example.png)

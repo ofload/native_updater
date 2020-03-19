@@ -7,12 +7,25 @@ When a newer app version is availabe in the app store, a simple alert prompt wid
 The UI comes in two flavors: Material Design for Android and Cupertino for iOS. The [UpgradeMaterialAlert](#material-alert-example) widget is used to display the
 native Android alert prompt, and the [UpgradeCupertinoAlert](#cupertino-alert-example) widget is used to display the native iOS alert prompt.
 
+## Installation via GitHub (for test only)
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.3
+
+  # Add this inside pubspec.yaml
+  native_updater:
+    git: https://github.com/loadsmileau/native_updater
+```
+
 ## Usage
 
-Just add this code inside the initState() life cycle on the first home screen of your app, and it will handle the rest.
+Just add this code inside the `initState()` life cycle method on the first home screen of your app, and it will handle the rest.
 
 ```dart
-    Future.delayed(Duration.zero, () {
+Future.delayed(Duration.zero, () {
       NativeUpdater.versionCheck(
         context: context,
         appStoreUrl: '<Your App Store URL>',

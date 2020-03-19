@@ -10,9 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # package_info will help us to find current installed version of application.
+  package_info: ^0.4.0+16
+  # url_launcher will help us to trigger app store / play store url from our app.
+  url_launcher: ^5.4.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
+  assets:
+    - assets/images/

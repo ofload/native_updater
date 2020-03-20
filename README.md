@@ -37,8 +37,12 @@ Just add this code inside the `initState()` life cycle method on the first home 
 Future.delayed(Duration.zero, () {
   NativeUpdater.displayUpdateAlert(
     context: context,
-    requiresUpdate: true,
-    appStoreUrl: '<Your App Store URL>',
+    forceUpdate: true, /// Set to true if you are forcing an update. Set to false if you are giving an option to update later.
+    appStoreUrl: '<Your App Store URL>', /// Optional
+    titlePrefix: '<Your Title Prefix>', /// Optional
+    description: '<Your Description>', /// Optional
+    updateButtonLabel: '<Your Update Button Label>', /// Optional
+    closeButtonLabel: '<Your Close Button Label>', /// Optional
   );
 });
 ```
@@ -70,14 +74,42 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    checkVersion();
+  }
 
-    Future.delayed(Duration.zero, () {
-      NativeUpdater.displayUpdateAlert(
-        context: context,
-        requiresUpdate: true,
-        appStoreUrl: '<Your App Store URL>',
-      );
-    });
+  Future<void> checkVersion() async {
+    /// For example:
+    /// You've got status code of 412 from the response of HTTP request.
+    /// Let's say the statusCode 412 is requires you to force update
+    /// and statusCode 200 ik OK but new version available.
+
+    int statusCode = 412; /// Try by switching the value to 412 or 200
+
+    if (statusCode == 412) {
+      Future.delayed(Duration.zero, () {
+        NativeUpdater.displayUpdateAlert(
+          context: context,
+          forceUpdate: true,
+          // appStoreUrl: '<Your App Store URL>',
+          // titlePrefix: 'Perbaharui',
+          // description: '<Your description>',
+          // updateButtonLabel: 'Perbaharui',
+          // closeButtonLabel: 'Tutup',
+        );
+      });
+    } else if (statusCode == 200) {
+      Future.delayed(Duration.zero, () {
+        NativeUpdater.displayUpdateAlert(
+          context: context,
+          forceUpdate: false,
+          // appStoreUrl: '<Your App Store URL>',
+          // titlePrefix: 'Perbaharui',
+          // description: '<Your description>',
+          // updateButtonLabel: 'Perbaharui',
+          // ignoreButtonLabel: 'Nanti',
+        );
+      });
+    }
   }
 
   @override
@@ -96,8 +128,12 @@ class _HomeState extends State<Home> {
 
 ## Screenshot of Material Alert
 
-![image](screenshots/material_example.png)
+|                 Force Update                 |               Can Update Later               |
+| :------------------------------------------: | :------------------------------------------: |
+| ![image](screenshots/material_example_1.png) | ![image](screenshots/material_example_2.png) |
 
 ## Screenshot of Cupertino Alert
 
-![image](screenshots/cupertino_example.png)
+|                 Force Update                  |               Can Update Later                |
+| :-------------------------------------------: | :-------------------------------------------: |
+| ![image](screenshots/cupertino_example_1.png) | ![image](screenshots/cupertino_example_2.png) |

@@ -4,24 +4,41 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpgradeMaterialAlert extends StatelessWidget {
+  final bool forceUpdate;
   final String appName;
   final String packageName;
+  final String titlePrefix;
+  final String description;
+  final String updateButtonLabel;
+  final String closeButtonLabel;
+  final String ignoreButtonLabel;
 
   UpgradeMaterialAlert({
+    @required this.forceUpdate,
     @required this.appName,
     @required this.packageName,
+    @required this.titlePrefix,
+    @required this.description,
+    @required this.updateButtonLabel,
+    @required this.closeButtonLabel,
+    @required this.ignoreButtonLabel,
   });
 
   @override
   Widget build(BuildContext context) {
     /// Set up the Buttons
-    Widget closeUpButton = FlatButton(
-      child: Text("CLOSE APP"),
+    Widget closeAppButton = FlatButton(
+      child: Text(closeButtonLabel.toUpperCase()),
       onPressed: () => exit(0),
     );
 
+    Widget ignoreButton = FlatButton(
+      child: Text(ignoreButtonLabel.toUpperCase()),
+      onPressed: () => Navigator.pop(context),
+    );
+
     Widget updateButton = FlatButton(
-      child: Text("UPDATE"),
+      child: Text(updateButtonLabel.toUpperCase()),
       color: Colors.blue,
       textColor: Colors.white,
       onPressed: () {
@@ -32,7 +49,8 @@ class UpgradeMaterialAlert extends StatelessWidget {
     );
 
     return AlertDialog(
-      title: Text("Update $appName"),
+      title: Text(
+          forceUpdate ? "$titlePrefix $appName" : "$titlePrefix $appName?"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,14 +60,12 @@ class UpgradeMaterialAlert extends StatelessWidget {
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: 24.0),
-          Text(
-            "$appName requires that you update to the latest version. You cannot use this app until it is updated.",
-          ),
+          Text(description),
           SizedBox(height: 24.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              closeUpButton,
+              forceUpdate ? closeAppButton : ignoreButton,
               updateButton,
             ],
           ),

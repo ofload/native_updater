@@ -20,6 +20,15 @@ dependencies:
     git: https://github.com/loadsmileau/native_updater
 ```
 
+## Additional setting for iOS
+
+To be able to show your App Name in the Cupertino Alert Dialog, add the following keys to your _Info.plist_ file, located in `<project root>/ios/Runner/Info.plist`:
+
+```plist
+<key>CFBundleDisplayName</key>
+<string>YOUR APP NAME</string>
+```
+
 ## Usage
 
 Just add this code inside the `initState()` life cycle method on the first home screen of your app, and it will handle the rest.

@@ -1,26 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpgradeCupertinoAlert extends StatelessWidget {
   final String appName;
-  final String newVersion;
   final String appStoreUrl;
 
   UpgradeCupertinoAlert({
     @required this.appName,
-    @required this.newVersion,
     @required this.appStoreUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     /// Set up the Buttons
-    Widget laterButton = CupertinoDialogAction(
-      child: Text('Later'),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+    Widget closeAppButton = CupertinoDialogAction(
+      child: Text('Close App'),
+      onPressed: () => exit(0),
     );
 
     Widget updateButton = CupertinoDialogAction(
@@ -33,11 +31,11 @@ class UpgradeCupertinoAlert extends StatelessWidget {
       content: Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Text(
-          "A new version of $appName is available. Please update to version $newVersion now.",
+          "$appName requires that you update to the latest version. You cannot use this app until it is updated.",
         ),
       ),
       actions: [
-        laterButton,
+        closeAppButton,
         updateButton,
       ],
     );

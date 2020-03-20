@@ -1,25 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpgradeMaterialAlert extends StatelessWidget {
   final String appName;
-  final String newVersion;
   final String packageName;
 
   UpgradeMaterialAlert({
     @required this.appName,
-    @required this.newVersion,
     @required this.packageName,
   });
 
   @override
   Widget build(BuildContext context) {
     /// Set up the Buttons
-    Widget noThanksButton = FlatButton(
-      child: Text("NO THANKS"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+    Widget closeUpButton = FlatButton(
+      child: Text("CLOSE APP"),
+      onPressed: () => exit(0),
     );
 
     Widget updateButton = FlatButton(
@@ -34,24 +32,24 @@ class UpgradeMaterialAlert extends StatelessWidget {
     );
 
     return AlertDialog(
-      title: Text("Update $appName?"),
+      title: Text("Update $appName"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Latest version: $newVersion',
+            'New version available',
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: 24.0),
           Text(
-            "$appName recommends that you update to the latest version. You can keep using this app while downloading the update.",
+            "$appName requires that you update to the latest version. You cannot use this app until it is updated.",
           ),
           SizedBox(height: 24.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              noThanksButton,
+              closeUpButton,
               updateButton,
             ],
           ),

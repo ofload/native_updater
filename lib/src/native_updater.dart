@@ -8,7 +8,6 @@ import 'upgrade_cupertino_alert.dart';
 
 class NativeUpdater {
   String _appName;
-  String _latestVersion;
   String _packageName;
   String _appStoreUrl;
 
@@ -18,41 +17,35 @@ class NativeUpdater {
   NativeUpdater._internal();
 
   /// Checking New Version
-  static versionCheck({
+  static displayUpdateAlert({
     @required BuildContext context,
+    @required bool requiresUpdate,
     String appStoreUrl,
   }) async {
     /// Get Current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
-    String currentVersion = info.version.trim().replaceAll("[a-zA-Z]|-", "");
 
-    // TODO: API call to server to get the latest App Version (sent in HTTP Headers)
-    String latestVersion = '<Latest Version>';
-
-    if (currentVersion != latestVersion) {
+    if (requiresUpdate) {
       _singleton._appName = info.appName;
-      _singleton._latestVersion = latestVersion;
       _singleton._packageName = info.packageName;
       _singleton._appStoreUrl = appStoreUrl;
-      _singleton._showUpgradeAlertDialog(context);
+      _singleton._showUpdateAlertDialog(context);
     }
   }
 
   /// Base Alert Dialog
-  void _showUpgradeAlertDialog(BuildContext context) {
+  void _showUpdateAlertDialog(BuildContext context) {
     Widget alert;
 
     /// Set up the AlertDialog
     if (Platform.isIOS) {
       alert = UpgradeCupertinoAlert(
         appName: _appName,
-        newVersion: _latestVersion,
         appStoreUrl: _appStoreUrl,
       );
     } else {
       alert = UpgradeMaterialAlert(
         appName: _appName,
-        newVersion: _latestVersion,
         packageName: _packageName,
       );
     }
@@ -60,6 +53,7 @@ class NativeUpdater {
     /// Show the Dialog
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return alert;
       },

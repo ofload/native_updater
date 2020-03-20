@@ -1,8 +1,8 @@
 # native_updater
 
-Flutter package for prompting users to upgrade with native dialog when there is a newer version of the app in the store.
+Flutter package for prompting users to update with native dialog when there is a newer version of the app in the store.
 
-When a newer app version is availabe in the app store, a simple alert prompt widget. With today's modern app stores, there is little need to persuade users to upgrade because most of them are already using the auto upgrade feature. However, there may be times when an app needs to be updated more quickly than usual, and nagging a user to upgrade will entice the upgrade sooner. Also, with Flutter supporting more than just Android and iOS app stores in the future, it will become more likely that users on other app stores need to be nagged about upgrading.
+When a newer app version is available via user defined logic, a simple alert prompt widget is displayed. With today's modern app stores, there is little need to persuade users to update because most of them are already using the auto update feature. However, there may be times when an app needs to be updated more quickly than usual, and nagging a user to upgrade will entice the update sooner.
 
 The UI comes in two flavors: Material Design for Android and Cupertino for iOS. The [UpgradeMaterialAlert](#material-alert-example) widget is used to display the
 native Android alert prompt, and the [UpgradeCupertinoAlert](#cupertino-alert-example) widget is used to display the native iOS alert prompt.
@@ -35,11 +35,12 @@ Just add this code inside the `initState()` life cycle method on the first home 
 
 ```dart
 Future.delayed(Duration.zero, () {
-      NativeUpdater.versionCheck(
-        context: context,
-        appStoreUrl: '<Your App Store URL>',
-      );
-    });
+  NativeUpdater.displayUpdateAlert(
+    context: context,
+    requiresUpdate: true,
+    appStoreUrl: '<Your App Store URL>',
+  );
+});
 ```
 
 ## Full Example
@@ -71,8 +72,9 @@ class _HomeState extends State<Home> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      NativeUpdater.versionCheck(
+      NativeUpdater.displayUpdateAlert(
         context: context,
+        requiresUpdate: true,
         appStoreUrl: '<Your App Store URL>',
       );
     });
@@ -82,7 +84,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Package Tester'),
+        title: Text('Your App'),
       ),
       body: Center(
         child: Text('Testing...'),
@@ -90,7 +92,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
 ```
 
 ## Screenshot of Material Alert

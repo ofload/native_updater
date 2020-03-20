@@ -55,6 +55,13 @@ class UpgradeMaterialAlert extends StatelessWidget {
               updateButton,
             ],
           ),
+          SizedBox(height: 16.0),
+          Divider(),
+          SizedBox(height: 16.0),
+          Image.network(
+            'https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png',
+            width: 120.0,
+          ),
         ],
       ),
     );

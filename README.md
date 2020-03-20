@@ -24,7 +24,7 @@ dependencies:
 
 To be able to show your App Name in the Cupertino Alert Dialog, add the following keys to your _Info.plist_ file, located in `<project root>/ios/Runner/Info.plist`:
 
-```plist
+```xml
 <key>CFBundleDisplayName</key>
 <string>YOUR APP NAME</string>
 ```

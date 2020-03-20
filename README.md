@@ -31,20 +31,27 @@ To be able to show your App Name in the Cupertino Alert Dialog, add the followin
 
 ## Usage
 
-Just add this code inside the `initState()` life cycle method on the first home screen of your app, and it will handle the rest.
+Just add this code whenever you want to display the update alert, and it will handle the rest.
 
 ```dart
-Future.delayed(Duration.zero, () {
-  NativeUpdater.displayUpdateAlert(
-    context: context,
-    forceUpdate: true, /// Set to true if you are forcing an update. Set to false if you are giving an option to update later.
-    appStoreUrl: '<Your App Store URL>', /// Optional
-    titlePrefix: '<Your Title Prefix>', /// Optional
-    description: '<Your Description>', /// Optional
-    updateButtonLabel: '<Your Update Button Label>', /// Optional
-    closeButtonLabel: '<Your Close Button Label>', /// Optional
-  );
-});
+NativeUpdater.displayUpdateAlert(
+  context: context,
+  forceUpdate: true,
+);
+```
+
+Or with the optional parameters you can use to customize the alert.
+
+```dart
+NativeUpdater.displayUpdateAlert(
+  context: context,
+  forceUpdate: true, /// Set to true if you are forcing an update. Set to false if you are giving an option to update later.
+  appStoreUrl: '<Your App Store URL>', /// Optional
+  titlePrefix: '<Your Title Prefix>', /// Optional
+  description: '<Your Description>', /// Optional
+  updateButtonLabel: '<Your Update Button Label>', /// Optional
+  closeButtonLabel: '<Your Close Button Label>', /// Optional
+);
 ```
 
 ## Full Example
@@ -126,13 +133,13 @@ class _HomeState extends State<Home> {
 }
 ```
 
-## Screenshot of Material Alert
+## Screenshots of Material Alert
 
 |                 Force Update                 |               Can Update Later               |
 | :------------------------------------------: | :------------------------------------------: |
 | ![image](screenshots/material_example_1.png) | ![image](screenshots/material_example_2.png) |
 
-## Screenshot of Cupertino Alert
+## Screenshots of Cupertino Alert
 
 |                 Force Update                  |               Can Update Later                |
 | :-------------------------------------------: | :-------------------------------------------: |

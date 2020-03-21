@@ -17,12 +17,12 @@ class NativeUpdater {
   String _closeButtonLabel;
   String _ignoreButtonLabel;
 
-  /// Singleton
+  /// Singleton related
   static final NativeUpdater _singleton = NativeUpdater._internal();
   factory NativeUpdater() => _singleton;
   NativeUpdater._internal();
 
-  /// Checking New Version
+  /// Displaying update alert
   static displayUpdateAlert({
     @required BuildContext context,
     @required bool forceUpdate,
@@ -33,9 +33,10 @@ class NativeUpdater {
     String closeButtonLabel,
     String ignoreButtonLabel,
   }) async {
-    /// Get Current installed version of app
+    /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
 
+    /// Set singleton properties
     _singleton._forceUpdate = forceUpdate;
     _singleton._appName = info.appName;
     _singleton._packageName = info.packageName;
@@ -45,12 +46,14 @@ class NativeUpdater {
     _singleton._updateButtonLabel = updateButtonLabel;
     _singleton._closeButtonLabel = closeButtonLabel;
     _singleton._ignoreButtonLabel = ignoreButtonLabel;
+
+    /// Call the singleton private method for showing the alert dialog
     _singleton._showUpdateAlertDialog(context);
   }
 
-  /// Base Alert Dialog
+  /// Base alert dialog
   void _showUpdateAlertDialog(BuildContext context) {
-    Widget alert;
+    /// Switch description based on whether it is force update or not.
     String selectedDefaultDescription;
 
     if (_forceUpdate) {
@@ -61,7 +64,9 @@ class NativeUpdater {
           '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
     }
 
-    /// Set up the AlertDialog
+    /// Set up the alert based on current platform
+    Widget alert;
+
     if (Platform.isIOS) {
       alert = UpgradeCupertinoAlert(
         forceUpdate: _forceUpdate,
@@ -85,7 +90,7 @@ class NativeUpdater {
       );
     }
 
-    /// Show the Dialog
+    /// Show the dialog
     showDialog(
       context: context,
       barrierDismissible: _forceUpdate ? false : true,

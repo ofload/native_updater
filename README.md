@@ -85,15 +85,19 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> checkVersion() async {
-    /// For example:
-    /// You've got status code of 412 from the response of HTTP request.
+    /// For example: You got status code of 412 from the
+    /// response of HTTP request.
     /// Let's say the statusCode 412 is requires you to force update
-    /// and statusCode 200 ik OK but new version available.
+    int statusCode = 412;
 
-    int statusCode = 412; /// Try by switching the value to 412 or 200
+    /// This could be kept in our local
+    int currentVersion = 1;
 
-    if (statusCode == 412) {
-      Future.delayed(Duration.zero, () {
+    /// This could get from the API
+    int newVersion = 2;
+
+    Future.delayed(Duration.zero, () {
+      if (statusCode == 412) {
         NativeUpdater.displayUpdateAlert(
           context: context,
           forceUpdate: true,
@@ -103,9 +107,7 @@ class _HomeState extends State<Home> {
           // updateButtonLabel: 'Perbaharui',
           // closeButtonLabel: 'Tutup',
         );
-      });
-    } else if (statusCode == 200) {
-      Future.delayed(Duration.zero, () {
+      } else if (currentVersion < newVersion) {
         NativeUpdater.displayUpdateAlert(
           context: context,
           forceUpdate: false,
@@ -115,8 +117,8 @@ class _HomeState extends State<Home> {
           // updateButtonLabel: 'Perbaharui',
           // ignoreButtonLabel: 'Nanti',
         );
-      });
-    }
+      }
+    });
   }
 
   @override

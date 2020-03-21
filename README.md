@@ -1,6 +1,6 @@
 # native_updater
 
-Flutter package for prompting users to update with native dialog when there is a newer version of the app in the store.
+Flutter package for prompting users to update with a native dialog when there is a newer version of the app in the store.
 
 When a newer app version is available via user defined logic, a simple alert prompt widget is displayed. With today's modern app stores, there is little need to persuade users to update because most of them are already using the auto update feature. However, there may be times when an app needs to be updated more quickly than usual, and nagging a user to upgrade will entice the update sooner.
 
@@ -40,7 +40,7 @@ NativeUpdater.displayUpdateAlert(
 );
 ```
 
-Or with the optional parameters you can use to customize the alert.
+Or with the optional parameters to customize the alert.
 
 ```dart
 NativeUpdater.displayUpdateAlert(

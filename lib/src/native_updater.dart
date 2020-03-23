@@ -17,14 +17,14 @@ class NativeUpdater {
   String _closeButtonLabel;
   String _ignoreButtonLabel;
 
-  /// Singleton
-  static final NativeUpdater _singleton = NativeUpdater._internal();
-  factory NativeUpdater() => _singleton;
+  /// Singleton related
+  static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
+  factory NativeUpdater() => _nativeUpdaterInstance;
   NativeUpdater._internal();
 
-  /// Checking New Version
-  static displayUpdateAlert({
-    @required BuildContext context,
+  /// Displaying update alert
+  static displayUpdateAlert(
+    BuildContext context, {
     @required bool forceUpdate,
     String appStoreUrl,
     String titlePrefix,
@@ -33,23 +33,38 @@ class NativeUpdater {
     String closeButtonLabel,
     String ignoreButtonLabel,
   }) async {
-    /// Get Current installed version of app
+    /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
 
-    _singleton._forceUpdate = forceUpdate;
-    _singleton._appName = info.appName;
-    _singleton._packageName = info.packageName;
-    _singleton._appStoreUrl = appStoreUrl;
-    _singleton._titlePrefix = titlePrefix;
-    _singleton._description = description;
-    _singleton._updateButtonLabel = updateButtonLabel;
-    _singleton._closeButtonLabel = closeButtonLabel;
-    _singleton._ignoreButtonLabel = ignoreButtonLabel;
-    _singleton._showUpdateAlertDialog(context);
+    /// Set singleton properties
+    _nativeUpdaterInstance._forceUpdate = forceUpdate;
+    _nativeUpdaterInstance._appName = info.appName;
+    _nativeUpdaterInstance._packageName = info.packageName;
+    _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
+    _nativeUpdaterInstance._titlePrefix = titlePrefix;
+    _nativeUpdaterInstance._description = description;
+    _nativeUpdaterInstance._updateButtonLabel = updateButtonLabel;
+    _nativeUpdaterInstance._closeButtonLabel = closeButtonLabel;
+    _nativeUpdaterInstance._ignoreButtonLabel = ignoreButtonLabel;
+
+    /// Call the singleton private method for showing the alert dialog
+    _nativeUpdaterInstance._showUpdateAlertDialog(context);
   }
 
-  /// Base Alert Dialog
+  /// Base alert dialog
   void _showUpdateAlertDialog(BuildContext context) {
+    /// Switch description based on whether it is force update or not.
+    String selectedDefaultDescription;
+
+    if (_forceUpdate) {
+      selectedDefaultDescription =
+          '$_appName requires that you update to the latest version. You cannot use this app until it is updated.';
+    } else {
+      selectedDefaultDescription =
+          '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
+    }
+
+    /// Set up the alert based on current platform
     Widget alert;
     String selectedDefaultDescription;
 
@@ -61,7 +76,6 @@ class NativeUpdater {
           '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
     }
 
-    /// Set up the AlertDialog
     if (Platform.isIOS) {
       alert = UpgradeCupertinoAlert(
         forceUpdate: _forceUpdate,
@@ -85,7 +99,7 @@ class NativeUpdater {
       );
     }
 
-    /// Show the Dialog
+    /// Show the dialog
     showDialog(
       context: context,
       barrierDismissible: _forceUpdate ? false : true,

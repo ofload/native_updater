@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class UpgradeMaterialAlert extends StatelessWidget {
   final bool forceUpdate;
   final String appName;
-  final String packageName;
+  final String playStoreUrl;
   final String titlePrefix;
   final String description;
   final String updateButtonLabel;
@@ -16,7 +16,7 @@ class UpgradeMaterialAlert extends StatelessWidget {
   UpgradeMaterialAlert({
     @required this.forceUpdate,
     @required this.appName,
-    @required this.packageName,
+    @required this.playStoreUrl,
     @required this.titlePrefix,
     @required this.description,
     @required this.updateButtonLabel,
@@ -41,11 +41,7 @@ class UpgradeMaterialAlert extends StatelessWidget {
       child: Text(updateButtonLabel.toUpperCase()),
       color: Colors.blue,
       textColor: Colors.white,
-      onPressed: () {
-        String basePlayStoreUrl =
-            'http://play.google.com/store/apps/details?id=';
-        launch(basePlayStoreUrl + packageName);
-      },
+      onPressed: () => launch(playStoreUrl),
     );
 
     return AlertDialog(

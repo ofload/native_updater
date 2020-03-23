@@ -18,13 +18,13 @@ class NativeUpdater {
   String _ignoreButtonLabel;
 
   /// Singleton related
-  static final NativeUpdater _singleton = NativeUpdater._internal();
-  factory NativeUpdater() => _singleton;
+  static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
+  factory NativeUpdater() => _nativeUpdaterInstance;
   NativeUpdater._internal();
 
   /// Displaying update alert
-  static displayUpdateAlert({
-    @required BuildContext context,
+  static displayUpdateAlert(
+    BuildContext context, {
     @required bool forceUpdate,
     String appStoreUrl,
     String titlePrefix,
@@ -37,18 +37,18 @@ class NativeUpdater {
     final PackageInfo info = await PackageInfo.fromPlatform();
 
     /// Set singleton properties
-    _singleton._forceUpdate = forceUpdate;
-    _singleton._appName = info.appName;
-    _singleton._packageName = info.packageName;
-    _singleton._appStoreUrl = appStoreUrl;
-    _singleton._titlePrefix = titlePrefix;
-    _singleton._description = description;
-    _singleton._updateButtonLabel = updateButtonLabel;
-    _singleton._closeButtonLabel = closeButtonLabel;
-    _singleton._ignoreButtonLabel = ignoreButtonLabel;
+    _nativeUpdaterInstance._forceUpdate = forceUpdate;
+    _nativeUpdaterInstance._appName = info.appName;
+    _nativeUpdaterInstance._packageName = info.packageName;
+    _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
+    _nativeUpdaterInstance._titlePrefix = titlePrefix;
+    _nativeUpdaterInstance._description = description;
+    _nativeUpdaterInstance._updateButtonLabel = updateButtonLabel;
+    _nativeUpdaterInstance._closeButtonLabel = closeButtonLabel;
+    _nativeUpdaterInstance._ignoreButtonLabel = ignoreButtonLabel;
 
     /// Call the singleton private method for showing the alert dialog
-    _singleton._showUpdateAlertDialog(context);
+    _nativeUpdaterInstance._showUpdateAlertDialog(context);
   }
 
   /// Base alert dialog

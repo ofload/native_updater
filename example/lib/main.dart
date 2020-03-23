@@ -28,35 +28,35 @@ class _HomeState extends State<Home> {
   Future<void> checkVersion() async {
     /// For example: You got status code of 412 from the
     /// response of HTTP request.
-    /// Let's say the statusCode 412 is requires you to force update
+    /// Let's say the statusCode 412 requires you to force update
     int statusCode = 412;
 
     /// This could be kept in our local
-    int currentVersion = 1;
+    int localVersion = 9;
 
     /// This could get from the API
-    int newVersion = 2;
+    int serverLatestVersion = 10;
 
     Future.delayed(Duration.zero, () {
       if (statusCode == 412) {
         NativeUpdater.displayUpdateAlert(
-          context: context,
+          context,
           forceUpdate: true,
-          // appStoreUrl: '<Your App Store URL>',
-          // titlePrefix: 'Perbaharui',
-          // description: '<Your description>',
-          // updateButtonLabel: 'Perbaharui',
-          // closeButtonLabel: 'Tutup',
+          appStoreUrl: '<Your App Store URL>',
+          titlePrefix: 'Upgrade',
+          description: '<Your description>',
+          updateButtonLabel: 'Upgrade',
+          closeButtonLabel: 'Exit',
         );
-      } else if (currentVersion < newVersion) {
+      } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
-          context: context,
+          context,
           forceUpdate: false,
-          // appStoreUrl: '<Your App Store URL>',
-          // titlePrefix: 'Perbaharui',
-          // description: '<Your description>',
-          // updateButtonLabel: 'Perbaharui',
-          // ignoreButtonLabel: 'Nanti',
+          appStoreUrl: '<Your App Store URL>',
+          titlePrefix: 'Upgrade',
+          description: '<Your description>',
+          updateButtonLabel: 'Upgrade',
+          ignoreButtonLabel: 'Next Time',
         );
       }
     });

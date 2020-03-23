@@ -66,6 +66,15 @@ class NativeUpdater {
 
     /// Set up the alert based on current platform
     Widget alert;
+    String selectedDefaultDescription;
+
+    if (_forceUpdate) {
+      selectedDefaultDescription =
+          '$_appName requires that you update to the latest version. You cannot use this app until it is updated.';
+    } else {
+      selectedDefaultDescription =
+          '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
+    }
 
     if (Platform.isIOS) {
       alert = UpgradeCupertinoAlert(

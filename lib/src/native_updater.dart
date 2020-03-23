@@ -9,8 +9,8 @@ import 'upgrade_cupertino_alert.dart';
 class NativeUpdater {
   bool _forceUpdate;
   String _appName;
-  String _packageName;
   String _appStoreUrl;
+  String _playStoreUrl;
   String _titlePrefix;
   String _description;
   String _updateButtonLabel;
@@ -27,6 +27,7 @@ class NativeUpdater {
     BuildContext context, {
     @required bool forceUpdate,
     String appStoreUrl,
+    String playStoreUrl,
     String titlePrefix,
     String description,
     String updateButtonLabel,
@@ -39,8 +40,8 @@ class NativeUpdater {
     /// Set singleton properties
     _nativeUpdaterInstance._forceUpdate = forceUpdate;
     _nativeUpdaterInstance._appName = info.appName;
-    _nativeUpdaterInstance._packageName = info.packageName;
     _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
+    _nativeUpdaterInstance._playStoreUrl = playStoreUrl;
     _nativeUpdaterInstance._titlePrefix = titlePrefix;
     _nativeUpdaterInstance._description = description;
     _nativeUpdaterInstance._updateButtonLabel = updateButtonLabel;
@@ -66,7 +67,6 @@ class NativeUpdater {
 
     /// Set up the alert based on current platform
     Widget alert;
-    String selectedDefaultDescription;
 
     if (_forceUpdate) {
       selectedDefaultDescription =
@@ -90,7 +90,7 @@ class NativeUpdater {
       alert = UpgradeMaterialAlert(
         forceUpdate: _forceUpdate,
         appName: _appName,
-        packageName: _packageName,
+        playStoreUrl: _playStoreUrl,
         titlePrefix: _titlePrefix ?? 'Update',
         description: _description ?? selectedDefaultDescription,
         updateButtonLabel: _updateButtonLabel ?? 'UPDATE',

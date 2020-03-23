@@ -54,6 +54,7 @@ NativeUpdater.displayUpdateAlert(
   context,
   forceUpdate: true,
   appStoreUrl: '<Your App Store URL>',
+  playStoreUrl: '<Your Play Store URL>',
   titlePrefix: '<Your Title Prefix>',
   description: '<Your Description>',
   updateButtonLabel: '<Your Update Button Label>',
@@ -67,11 +68,13 @@ NativeUpdater.displayUpdateAlert(
 
 **context** is the location in the tree where this widget builds.
 
-**forceUpdate** is to tell whether the alert is forcing an update or not. Set to true if you are forcing an update. Set to false if you are giving an option to update later.
+**forceUpdate** is to tell whether the alert is forcing an update or not. Set to `true` if you are forcing an update. Set to `false` if you are giving an option to update later.
 
 ### Optional Parameters
 
-**appStoreUrl** is to launch your App Store URL if you're also developing for iOS.
+**appStoreUrl** is to launch your App Store URL if you're developing for iOS. Follow this [link](https://support.google.com/admob/answer/3086746?hl=en "Find your app store URL") on how to find your App Store URL.
+
+**playStoreUrl** is to launch your Play Store URL if you're developing for Android. Follow this [link](https://support.google.com/admob/answer/3086746?hl=en "Find your app store URL") on how to find your Play Store URL.
 
 **titlePrefix** is to prefixing the alert title before your app name. The default is `Update`.
 
@@ -129,6 +132,7 @@ class _HomeState extends State<Home> {
           context,
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
+          playStoreUrl: '<Your Play Store URL>',
           titlePrefix: 'Upgrade',
           description: '<Your description>',
           updateButtonLabel: 'Upgrade',
@@ -139,6 +143,7 @@ class _HomeState extends State<Home> {
           context,
           forceUpdate: false,
           appStoreUrl: '<Your App Store URL>',
+          playStoreUrl: '<Your Play Store URL>',
           titlePrefix: 'Upgrade',
           description: '<Your description>',
           updateButtonLabel: 'Upgrade',

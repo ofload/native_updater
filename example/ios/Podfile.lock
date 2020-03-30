@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - in_app_update (0.0.1):
+    - Flutter
   - package_info (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
@@ -11,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - in_app_update (from `.symlinks/plugins/in_app_update/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
@@ -19,6 +22,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  in_app_update:
+    :path: ".symlinks/plugins/in_app_update/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   url_launcher:
@@ -30,6 +35,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  in_app_update: 16e877e205f4360264cb536e3a6481f0d90299e1
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313

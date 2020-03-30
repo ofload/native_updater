@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UpgradeCupertinoAlert extends StatelessWidget {
+class UpdateCupertinoAlert extends StatelessWidget {
   final bool forceUpdate;
   final String appName;
   final String appStoreUrl;
@@ -13,7 +13,7 @@ class UpgradeCupertinoAlert extends StatelessWidget {
   final String closeButtonLabel;
   final String ignoreButtonLabel;
 
-  UpgradeCupertinoAlert({
+  UpdateCupertinoAlert({
     @required this.forceUpdate,
     @required this.appName,
     @required this.appStoreUrl,

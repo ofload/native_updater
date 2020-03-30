@@ -44,10 +44,9 @@ class _HomeState extends State<Home> {
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
           playStoreUrl: '<Your Play Store URL>',
-          titlePrefix: 'Upgrade',
-          description: '<Your description>',
-          updateButtonLabel: 'Upgrade',
-          closeButtonLabel: 'Exit',
+          iOSDescription: '<Your iOS description>',
+          iOSUpdateButtonLabel: 'Upgrade',
+          iOSCloseButtonLabel: 'Exit',
         );
       } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
@@ -55,10 +54,9 @@ class _HomeState extends State<Home> {
           forceUpdate: false,
           appStoreUrl: '<Your App Store URL>',
           playStoreUrl: '<Your Play Store URL>',
-          titlePrefix: 'Upgrade',
-          description: '<Your description>',
-          updateButtonLabel: 'Upgrade',
-          ignoreButtonLabel: 'Next Time',
+          iOSDescription: '<Your description>',
+          iOSUpdateButtonLabel: 'Upgrade',
+          iOSIgnoreButtonLabel: 'Next Time',
         );
       }
     });

@@ -6,7 +6,7 @@
 
 When a latest app version is available via user defined logic, a simple alert prompt widget is displayed. With today's modern app stores, there is little need to persuade users to update because most of them are already using the auto update feature. However, there may be times when an app needs to be updated more quickly than usual, and nagging a user to update will entice the update sooner.
 
-The UI comes in two flavors: Material Design for Android and Cupertino for iOS. The [UpgradeMaterialAlert](#material-alert-example) widget is used to display the native Android alert prompt, and the [UpgradeCupertinoAlert](#cupertino-alert-example) widget is used to display the native iOS alert prompt.
+The UI comes in two flavors: Material Design for Android and Cupertino for iOS. The [UpdateMaterialAlert](#material-alert-example) widget is used to display the native Android alert prompt, and the [UpdateCupertinoAlert](#cupertino-alert-example) widget is used to display the native iOS alert prompt.
 
 ## Installation via GitHub (for test only)
 
@@ -55,10 +55,10 @@ NativeUpdater.displayUpdateAlert(
   forceUpdate: true,
   appStoreUrl: '<Your App Store URL>',
   playStoreUrl: '<Your Play Store URL>',
-  titlePrefix: '<Your Title Prefix>',
-  description: '<Your Description>',
-  updateButtonLabel: '<Your Update Button Label>',
-  closeButtonLabel: '<Your Close Button Label>',
+  iOSDescription: '<Your iOS Description>',
+  iOSUpdateButtonLabel: '<Your iOS Update Button Label>',
+  iOSCloseButtonLabel: '<Your iOS Close Button Label>',
+  iOSIgnoreButtonLabel: '<Your iOS Ignore Button Label>',
 );
 ```
 
@@ -76,13 +76,13 @@ NativeUpdater.displayUpdateAlert(
 
 **playStoreUrl** is to launch your Play Store URL if you're developing for Android. Follow this [link](https://support.google.com/admob/answer/3086746?hl=en "Find your app store URL") on how to find your Play Store URL.
 
-**titlePrefix** is to prefixing the alert title before your app name. The default is `Update`.
+**iOSDescription** is to use your custom alert description on `UpdateCupertinoAlert`. The default is `<App Name> requires that you update to the latest version. You cannot use this app until it is updated.` or `<App Name> recommends that you update to the latest version. You can keep using this app while downloading the update.`
 
-**description** is to use your custom alert description. The default is `<App Name> requires that you update to the latest version. You cannot use this app until it is updated.` or `<App Name> recommends that you update to the latest version. You can keep using this app while downloading the update.`
+**iOSUpdateButtonLabel** is to use your custom Update Button Label on `UpdateCupertinoAlert`. The default is `Update`.
 
-**updateButtonLabel** is to use your custom Update Button Label. The default is `Update`.
+**iOSCloseButtonLabel** is to use your custom Close Button Label on`UpdateCupertinoAlert`. The default is `Close App`.
 
-**closeButtonLabel** is to use your custom Close Button Label. The default is `Close App` or `Later`.
+**iOSIgnoreButtonLabel** is to use your custom Ignore Button Label on`UpdateCupertinoAlert`. The default is `Later`.
 
 ## Full Example
 
@@ -133,10 +133,9 @@ class _HomeState extends State<Home> {
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
           playStoreUrl: '<Your Play Store URL>',
-          titlePrefix: 'Upgrade',
-          description: '<Your description>',
-          updateButtonLabel: 'Upgrade',
-          closeButtonLabel: 'Exit',
+          iOSDescription: '<Your iOS description>',
+          iOSUpdateButtonLabel: 'Upgrade',
+          iOSCloseButtonLabel: 'Exit',
         );
       } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
@@ -144,10 +143,9 @@ class _HomeState extends State<Home> {
           forceUpdate: false,
           appStoreUrl: '<Your App Store URL>',
           playStoreUrl: '<Your Play Store URL>',
-          titlePrefix: 'Upgrade',
-          description: '<Your description>',
-          updateButtonLabel: 'Upgrade',
-          ignoreButtonLabel: 'Next Time',
+          iOSDescription: '<Your description>',
+          iOSUpdateButtonLabel: 'Upgrade',
+          iOSIgnoreButtonLabel: 'Next Time',
         );
       }
     });
@@ -169,9 +167,13 @@ class _HomeState extends State<Home> {
 
 ## Screenshots of Material Alert
 
-|                 Force Update                 |               Can Update Later               |
-| :------------------------------------------: | :------------------------------------------: |
-| ![image](screenshots/material_example_1.png) | ![image](screenshots/material_example_2.png) |
+### An example of a flexible update flow
+
+![image](screenshots/android_flexible_flow.png)
+
+### An example of an immediate update flow
+
+![image](screenshots/android_immediate_flow.png)
 
 ## Screenshots of Cupertino Alert
 

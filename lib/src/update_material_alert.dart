@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UpgradeMaterialAlert extends StatelessWidget {
+class UpdateMaterialAlert extends StatelessWidget {
   final bool forceUpdate;
   final String appName;
   final String playStoreUrl;
@@ -13,7 +13,7 @@ class UpgradeMaterialAlert extends StatelessWidget {
   final String closeButtonLabel;
   final String ignoreButtonLabel;
 
-  UpgradeMaterialAlert({
+  UpdateMaterialAlert({
     @required this.forceUpdate,
     @required this.appName,
     @required this.playStoreUrl,

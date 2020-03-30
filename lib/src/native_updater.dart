@@ -1,21 +1,23 @@
+import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info/package_info.dart';
 
-import 'updgrade_material_alert.dart';
-import 'upgrade_cupertino_alert.dart';
+import 'error_material_alert.dart';
+import 'update_cupertino_alert.dart';
 
 class NativeUpdater {
   bool _forceUpdate;
   String _appName;
   String _appStoreUrl;
   String _playStoreUrl;
-  String _titlePrefix;
-  String _description;
-  String _updateButtonLabel;
-  String _closeButtonLabel;
-  String _ignoreButtonLabel;
+  String _iOSDescription;
+  String _iOSUpdateButtonLabel;
+  String _iOSCloseButtonLabel;
+  String _iOSIgnoreButtonLabel;
 
   /// Singleton related
   static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
@@ -28,11 +30,10 @@ class NativeUpdater {
     @required bool forceUpdate,
     String appStoreUrl,
     String playStoreUrl,
-    String titlePrefix,
-    String description,
-    String updateButtonLabel,
-    String closeButtonLabel,
-    String ignoreButtonLabel,
+    String iOSDescription,
+    String iOSUpdateButtonLabel,
+    String iOSCloseButtonLabel,
+    String iOSIgnoreButtonLabel,
   }) async {
     /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
@@ -42,18 +43,20 @@ class NativeUpdater {
     _nativeUpdaterInstance._appName = info.appName;
     _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
     _nativeUpdaterInstance._playStoreUrl = playStoreUrl;
-    _nativeUpdaterInstance._titlePrefix = titlePrefix;
-    _nativeUpdaterInstance._description = description;
-    _nativeUpdaterInstance._updateButtonLabel = updateButtonLabel;
-    _nativeUpdaterInstance._closeButtonLabel = closeButtonLabel;
-    _nativeUpdaterInstance._ignoreButtonLabel = ignoreButtonLabel;
+    _nativeUpdaterInstance._iOSDescription = iOSDescription;
+    _nativeUpdaterInstance._iOSUpdateButtonLabel = iOSUpdateButtonLabel;
+    _nativeUpdaterInstance._iOSCloseButtonLabel = iOSCloseButtonLabel;
+    _nativeUpdaterInstance._iOSIgnoreButtonLabel = iOSIgnoreButtonLabel;
 
-    /// Call the singleton private method for showing the alert dialog
-    _nativeUpdaterInstance._showUpdateAlertDialog(context);
+    /// Show the alert based on current platform
+    if (Platform.isIOS) {
+      _nativeUpdaterInstance._showCupertinoAlertDialog(context);
+    } else {
+      _nativeUpdaterInstance._showMaterialAlertDialog(context);
+    }
   }
 
-  /// Base alert dialog
-  void _showUpdateAlertDialog(BuildContext context) {
+  void _showCupertinoAlertDialog(BuildContext context) {
     /// Switch description based on whether it is force update or not.
     String selectedDefaultDescription;
 
@@ -65,41 +68,16 @@ class NativeUpdater {
           '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
     }
 
-    /// Set up the alert based on current platform
-    Widget alert;
+    Widget alert = UpdateCupertinoAlert(
+      forceUpdate: _forceUpdate,
+      appName: _appName,
+      appStoreUrl: _appStoreUrl,
+      description: _iOSDescription ?? selectedDefaultDescription,
+      updateButtonLabel: _iOSUpdateButtonLabel ?? 'Update',
+      closeButtonLabel: _iOSCloseButtonLabel ?? 'Close App',
+      ignoreButtonLabel: _iOSIgnoreButtonLabel ?? 'Later',
+    );
 
-    if (_forceUpdate) {
-      selectedDefaultDescription =
-          '$_appName requires that you update to the latest version. You cannot use this app until it is updated.';
-    } else {
-      selectedDefaultDescription =
-          '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
-    }
-
-    if (Platform.isIOS) {
-      alert = UpgradeCupertinoAlert(
-        forceUpdate: _forceUpdate,
-        appName: _appName,
-        appStoreUrl: _appStoreUrl,
-        description: _description ?? selectedDefaultDescription,
-        updateButtonLabel: _updateButtonLabel ?? 'Update',
-        closeButtonLabel: _closeButtonLabel ?? 'Close App',
-        ignoreButtonLabel: _ignoreButtonLabel ?? 'Later',
-      );
-    } else {
-      alert = UpgradeMaterialAlert(
-        forceUpdate: _forceUpdate,
-        appName: _appName,
-        playStoreUrl: _playStoreUrl,
-        titlePrefix: _titlePrefix ?? 'Update',
-        description: _description ?? selectedDefaultDescription,
-        updateButtonLabel: _updateButtonLabel ?? 'UPDATE',
-        closeButtonLabel: _closeButtonLabel ?? 'CLOSE APP',
-        ignoreButtonLabel: _ignoreButtonLabel ?? 'LATER',
-      );
-    }
-
-    /// Show the dialog
     showDialog(
       context: context,
       barrierDismissible: _forceUpdate ? false : true,
@@ -107,5 +85,37 @@ class NativeUpdater {
         return alert;
       },
     );
+  }
+
+  void _showMaterialAlertDialog(BuildContext context) async {
+    developer.log('Playstore URL: ${_playStoreUrl ?? ''}');
+
+    /// In App Update Related
+    try {
+      AppUpdateInfo _updateInfo = await InAppUpdate.checkForUpdate();
+
+      if (_updateInfo?.updateAvailable == true) {
+        if (_forceUpdate == true) {
+          InAppUpdate.performImmediateUpdate()
+              .catchError((e) => developer.log(e.toString()));
+        } else if (_forceUpdate == false) {
+          InAppUpdate.startFlexibleUpdate()
+              .catchError((e) => developer.log(e.toString()));
+        }
+      }
+    } on PlatformException catch (e) {
+      developer.log(e.code.toString());
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorMaterialAlert(
+            appName: _appName,
+            description:
+                'This version of $_appName was not installed from Google Play Store.',
+          );
+        },
+      );
+    }
   }
 }

@@ -1,6 +1,6 @@
 name: native_updater
 description: Flutter package for prompting users to update with a native dialog whether using the app store version or any version at the user's discretion.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/loadsmileau/native_updater
 
 environment:

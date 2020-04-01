@@ -1,3 +1,7 @@
+## [0.0.3] - 04/01/2020
+
+- Integrate In-App Update.
+
 ## [0.0.2] - 03/23/2020
 
 - Ready to use version.

@@ -10,6 +10,7 @@ import 'error_material_alert.dart';
 import 'update_cupertino_alert.dart';
 
 class NativeUpdater {
+  BuildContext _context;
   bool _forceUpdate;
   String _appName;
   String _appStoreUrl;
@@ -39,6 +40,7 @@ class NativeUpdater {
     final PackageInfo info = await PackageInfo.fromPlatform();
 
     /// Set singleton properties
+    _nativeUpdaterInstance._context = context;
     _nativeUpdaterInstance._forceUpdate = forceUpdate;
     _nativeUpdaterInstance._appName = info.appName;
     _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
@@ -50,13 +52,13 @@ class NativeUpdater {
 
     /// Show the alert based on current platform
     if (Platform.isIOS) {
-      _nativeUpdaterInstance._showCupertinoAlertDialog(context);
+      _nativeUpdaterInstance._showCupertinoAlertDialog();
     } else {
-      _nativeUpdaterInstance._showMaterialAlertDialog(context);
+      _nativeUpdaterInstance._showMaterialAlertDialog();
     }
   }
 
-  void _showCupertinoAlertDialog(BuildContext context) {
+  void _showCupertinoAlertDialog() {
     /// Switch description based on whether it is force update or not.
     String selectedDefaultDescription;
 
@@ -79,7 +81,7 @@ class NativeUpdater {
     );
 
     showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: _forceUpdate ? false : true,
       builder: (BuildContext context) {
         return alert;
@@ -87,7 +89,7 @@ class NativeUpdater {
     );
   }
 
-  void _showMaterialAlertDialog(BuildContext context) async {
+  void _showMaterialAlertDialog() async {
     developer.log('Playstore URL: ${_playStoreUrl ?? ''}');
 
     /// In App Update Related
@@ -107,7 +109,7 @@ class NativeUpdater {
       developer.log(e.code.toString());
 
       showDialog(
-        context: context,
+        context: _context,
         builder: (BuildContext context) {
           return ErrorMaterialAlert(
             appName: _appName,

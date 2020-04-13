@@ -19,6 +19,7 @@ class NativeUpdater {
   String _iOSUpdateButtonLabel;
   String _iOSCloseButtonLabel;
   String _iOSIgnoreButtonLabel;
+  UpdateCupertinoAlert _iOSAlert;
 
   /// Singleton related
   static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
@@ -59,6 +60,32 @@ class NativeUpdater {
   }
 
   @visibleForTesting
+  void setSingletonPrivatePropertiesForCupertino({
+    BuildContext context,
+    bool forceUpdate,
+    String appName,
+    String appStoreUrl,
+    String iOSDescription,
+    String iOSUpdateButtonLabel,
+    String iOSCloseButtonLabel,
+    String iOSIgnoreButtonLabel,
+  }) {
+    _nativeUpdaterInstance._context = context;
+    _nativeUpdaterInstance._forceUpdate = forceUpdate;
+    _nativeUpdaterInstance._appName = appName;
+    _nativeUpdaterInstance._appStoreUrl = appStoreUrl;
+    _nativeUpdaterInstance._iOSDescription = iOSDescription;
+    _nativeUpdaterInstance._iOSUpdateButtonLabel = iOSUpdateButtonLabel;
+    _nativeUpdaterInstance._iOSCloseButtonLabel = iOSCloseButtonLabel;
+    _nativeUpdaterInstance._iOSIgnoreButtonLabel = iOSIgnoreButtonLabel;
+  }
+
+  @visibleForTesting
+  UpdateCupertinoAlert getIOSAlert() {
+    return _nativeUpdaterInstance._iOSAlert;
+  }
+
+  @visibleForTesting
   void setForceUpdate(bool forceUpdate) {
     _nativeUpdaterInstance._forceUpdate = forceUpdate;
   }
@@ -76,7 +103,7 @@ class NativeUpdater {
           '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
     }
 
-    Widget alert = UpdateCupertinoAlert(
+    _iOSAlert = UpdateCupertinoAlert(
       forceUpdate: _forceUpdate,
       appName: _appName,
       appStoreUrl: _appStoreUrl,
@@ -90,7 +117,7 @@ class NativeUpdater {
       context: _context,
       barrierDismissible: _forceUpdate ? false : true,
       builder: (BuildContext context) {
-        return alert;
+        return _iOSAlert;
       },
     );
   }

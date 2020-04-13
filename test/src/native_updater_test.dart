@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:native_updater/src/native_updater.dart';
@@ -15,7 +17,8 @@ void main() {
     nativeUpdater = NativeUpdater();
     isImmediateUpdateInvoked = false;
     isFlexibleUpdateInvoked = false;
-    inAppUpdateChannel.setMockMethodCallHandler((MethodCall methodCall) async{
+
+    inAppUpdateChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == 'checkForUpdate') {
         return {
           'updateAvailable': true,
@@ -74,56 +77,76 @@ void main() {
     });
 
     group('iOS', () {
-      final String tAppName = 'App Name';
-      final String tAppStoreUrl = 'https://anyurl.com';
-      final String tDescription = 'App Description';
-      final String tUpdateButtonLabel = 'Update';
-      final String tCloseButtonLabel = 'Close';
-      final String tIgnoreButtonLabel = 'Later';
+      bool tCupertinoForceUpdate;
+      String tAppName = 'App Name';
+      String tAppStoreUrl = 'https://anyurl.com';
+      String tIOSDescription = 'App Description';
+      String tIOSUpdateButtonLabel = 'Update';
+      String tIOSCloseButtonLabel = 'Close';
+      String tIOSIgnoreButtonLabel = 'Later';
 
-      test('iOS platform should show Cupertino Alert Style', () async {
+      testWidgets(
+          'iOS platform should do immediate update if forceUpdate is true',
+          (WidgetTester tester) async {
+        // arrange
+        tCupertinoForceUpdate = true;
+
+        await tester.pumpWidget(MaterialApp(
+          home: Builder(
+            builder: (BuildContext context) {
+              nativeUpdater.setSingletonPrivatePropertiesForCupertino(
+                context: context,
+                forceUpdate: tCupertinoForceUpdate,
+                appName: tAppName,
+                appStoreUrl: tAppStoreUrl,
+                iOSDescription: tIOSDescription,
+                iOSUpdateButtonLabel: tIOSUpdateButtonLabel,
+                iOSCloseButtonLabel: tIOSCloseButtonLabel,
+                iOSIgnoreButtonLabel: tIOSIgnoreButtonLabel,
+              );
+
+              return Container();
+            },
+          ),
+        ));
+        // act
         nativeUpdater.showCupertinoAlertDialog();
-        find.byElementType(UpdateCupertinoAlert);
+        // assert
+        expect(nativeUpdater.getIOSAlert(), isA<UpdateCupertinoAlert>());
+        expect(nativeUpdater.getIOSAlert().forceUpdate, tCupertinoForceUpdate);
       });
 
-      test('iOS platform should do immediate update if forceUpdate is true',
-          () async {
+      testWidgets(
+          'iOS platform should do flexible update if forceUpdate is false',
+          (WidgetTester tester) async {
         // arrange
-        tForceUpdate = true;
+        tCupertinoForceUpdate = false;
 
-        final tCupertinoAlert = UpdateCupertinoAlert(
-          forceUpdate: tForceUpdate,
-          appName: tAppName,
-          appStoreUrl: tAppStoreUrl,
-          description: tDescription,
-          updateButtonLabel: tUpdateButtonLabel,
-          closeButtonLabel: tCloseButtonLabel,
-          ignoreButtonLabel: tIgnoreButtonLabel,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (BuildContext context) {
+                nativeUpdater.setSingletonPrivatePropertiesForCupertino(
+                  context: context,
+                  forceUpdate: tCupertinoForceUpdate,
+                  appName: tAppName,
+                  appStoreUrl: tAppStoreUrl,
+                  iOSDescription: tIOSDescription,
+                  iOSUpdateButtonLabel: tIOSUpdateButtonLabel,
+                  iOSCloseButtonLabel: tIOSCloseButtonLabel,
+                  iOSIgnoreButtonLabel: tIOSIgnoreButtonLabel,
+                );
+
+                return Container();
+              },
+            ),
+          ),
         );
         // act
         nativeUpdater.showCupertinoAlertDialog();
         // assert
-        expect(tCupertinoAlert, contains(tForceUpdate == true));
-      });
-
-      test('iOS platform should do flexible update if forceUpdate is false',
-          () async {
-        // arrange
-        tForceUpdate = false;
-
-        final tCupertinoAlert = UpdateCupertinoAlert(
-          forceUpdate: tForceUpdate,
-          appName: tAppName,
-          appStoreUrl: tAppStoreUrl,
-          description: tDescription,
-          updateButtonLabel: tUpdateButtonLabel,
-          closeButtonLabel: tCloseButtonLabel,
-          ignoreButtonLabel: tIgnoreButtonLabel,
-        );
-        // act
-        nativeUpdater.showCupertinoAlertDialog();
-        // assert
-        expect(tCupertinoAlert, contains(tForceUpdate == false));
+        expect(nativeUpdater.getIOSAlert(), isA<UpdateCupertinoAlert>());
+        expect(nativeUpdater.getIOSAlert().forceUpdate, tCupertinoForceUpdate);
       });
     });
   });

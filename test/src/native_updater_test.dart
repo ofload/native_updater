@@ -1,17 +1,40 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:native_updater/src/native_updater.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:native_updater/src/update_cupertino_alert.dart';
 
-class MockNativeUpdater extends Mock implements NativeUpdater {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  MockNativeUpdater nativeUpdater;
+  NativeUpdater nativeUpdater;
+  MethodChannel inAppUpdateChannel = const MethodChannel("in_app_update");
+  bool isImmediateUpdateInvoked;
+  bool isFlexibleUpdateInvoked;
 
   setUp(() {
-    nativeUpdater = MockNativeUpdater();
+    nativeUpdater = NativeUpdater();
+    isImmediateUpdateInvoked = false;
+    isFlexibleUpdateInvoked = false;
+    inAppUpdateChannel.setMockMethodCallHandler((MethodCall methodCall) async{
+      if (methodCall.method == 'checkForUpdate') {
+        return {
+          'updateAvailable': true,
+          'immediateAllowed': true,
+          'flexibleAllowed': true,
+          'availableVersionCode': 10,
+        };
+      }
+
+      if (methodCall.method == 'performImmediateUpdate') {
+        isImmediateUpdateInvoked = true;
+      }
+
+      if (methodCall.method == 'startFlexibleUpdate') {
+        isFlexibleUpdateInvoked = true;
+      }
+
+      return null;
+    });
   });
 
   group('Native Updater Test', () {
@@ -27,24 +50,26 @@ void main() {
           () async {
         // arrange
         tForceUpdate = true;
+        nativeUpdater.setForceUpdate(tForceUpdate);
         // act
         nativeUpdater.showMaterialAlertDialog();
         // assert
-        if (tForceUpdate == true) {
-          verify(InAppUpdate.performImmediateUpdate()).called(1);
-        }
+        Future.delayed(Duration(seconds: 2), () {
+          expect(isImmediateUpdateInvoked, true);
+        });
       });
 
       test('Android platform should do flexible update if forceUpdate is false',
           () async {
         // arrange
         tForceUpdate = false;
+        nativeUpdater.setForceUpdate(tForceUpdate);
         // act
         nativeUpdater.showMaterialAlertDialog();
         // assert
-        if (tForceUpdate == false) {
-          verify(InAppUpdate.startFlexibleUpdate()).called(1);
-        }
+        Future.delayed(Duration(seconds: 2), () {
+          expect(isFlexibleUpdateInvoked, true);
+        });
       });
     });
 
@@ -101,5 +126,9 @@ void main() {
         expect(tCupertinoAlert, contains(tForceUpdate == false));
       });
     });
+  });
+
+  tearDown(() {
+    inAppUpdateChannel.setMockMethodCallHandler(null);
   });
 }

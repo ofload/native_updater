@@ -59,6 +59,11 @@ class NativeUpdater {
   }
 
   @visibleForTesting
+  void setForceUpdate(bool forceUpdate) {
+    _nativeUpdaterInstance._forceUpdate = forceUpdate;
+  }
+
+  @visibleForTesting
   void showCupertinoAlertDialog() {
     /// Switch description based on whether it is force update or not.
     String selectedDefaultDescription;

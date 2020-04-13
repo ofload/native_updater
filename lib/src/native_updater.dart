@@ -52,13 +52,14 @@ class NativeUpdater {
 
     /// Show the alert based on current platform
     if (Platform.isIOS) {
-      _nativeUpdaterInstance._showCupertinoAlertDialog();
+      _nativeUpdaterInstance.showCupertinoAlertDialog();
     } else {
-      _nativeUpdaterInstance._showMaterialAlertDialog();
+      _nativeUpdaterInstance.showMaterialAlertDialog();
     }
   }
 
-  void _showCupertinoAlertDialog() {
+  @visibleForTesting
+  void showCupertinoAlertDialog() {
     /// Switch description based on whether it is force update or not.
     String selectedDefaultDescription;
 
@@ -89,7 +90,8 @@ class NativeUpdater {
     );
   }
 
-  void _showMaterialAlertDialog() async {
+  @visibleForTesting
+  void showMaterialAlertDialog() async {
     developer.log('Playstore URL: ${_playStoreUrl ?? ''}');
 
     /// In App Update Related

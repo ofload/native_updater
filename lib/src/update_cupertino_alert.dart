@@ -12,6 +12,7 @@ class UpdateCupertinoAlert extends StatelessWidget {
   final String updateButtonLabel;
   final String closeButtonLabel;
   final String ignoreButtonLabel;
+  final String alertTitle;
 
   UpdateCupertinoAlert({
     @required this.forceUpdate,
@@ -21,6 +22,7 @@ class UpdateCupertinoAlert extends StatelessWidget {
     @required this.updateButtonLabel,
     @required this.closeButtonLabel,
     @required this.ignoreButtonLabel,
+    @required this.alertTitle,
   });
 
   @override
@@ -37,12 +39,12 @@ class UpdateCupertinoAlert extends StatelessWidget {
     );
 
     Widget updateButton = CupertinoDialogAction(
-      child: Text('Update'),
+      child: Text(updateButtonLabel),
       onPressed: () => launch(appStoreUrl),
     );
 
     return CupertinoAlertDialog(
-      title: Text("Update Available"),
+      title: Text(alertTitle),
       content: Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Text(description),

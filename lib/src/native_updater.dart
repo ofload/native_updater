@@ -19,7 +19,7 @@ class NativeUpdater {
   String _iOSUpdateButtonLabel;
   String _iOSCloseButtonLabel;
   String _iOSIgnoreButtonLabel;
-  String _iOSCustomTitle;
+  String _iOSAlertTitle;
 
   /// Singleton related
   static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
@@ -36,7 +36,7 @@ class NativeUpdater {
     String iOSUpdateButtonLabel,
     String iOSCloseButtonLabel,
     String iOSIgnoreButtonLabel,
-    String iOSCustomTitle,
+    String iOSAlertTitle,
   }) async {
     /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
@@ -51,7 +51,7 @@ class NativeUpdater {
     _nativeUpdaterInstance._iOSUpdateButtonLabel = iOSUpdateButtonLabel;
     _nativeUpdaterInstance._iOSCloseButtonLabel = iOSCloseButtonLabel;
     _nativeUpdaterInstance._iOSIgnoreButtonLabel = iOSIgnoreButtonLabel;
-    _nativeUpdaterInstance._iOSCustomTitle = iOSCustomTitle;
+    _nativeUpdaterInstance._iOSAlertTitle = iOSAlertTitle;
 
     /// Show the alert based on current platform
     if (Platform.isIOS) {
@@ -81,7 +81,7 @@ class NativeUpdater {
       updateButtonLabel: _iOSUpdateButtonLabel ?? 'Update',
       closeButtonLabel: _iOSCloseButtonLabel ?? 'Close App',
       ignoreButtonLabel: _iOSIgnoreButtonLabel ?? 'Later',
-      customTitle: _iOSCustomTitle ?? 'Update Available',
+      alertTitle: _iOSAlertTitle ?? 'Update Available',
     );
 
     showDialog(

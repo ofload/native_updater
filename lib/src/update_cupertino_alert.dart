@@ -12,7 +12,7 @@ class UpdateCupertinoAlert extends StatelessWidget {
   final String updateButtonLabel;
   final String closeButtonLabel;
   final String ignoreButtonLabel;
-  final String customTitle;
+  final String alertTitle;
 
   UpdateCupertinoAlert({
     @required this.forceUpdate,
@@ -22,7 +22,7 @@ class UpdateCupertinoAlert extends StatelessWidget {
     @required this.updateButtonLabel,
     @required this.closeButtonLabel,
     @required this.ignoreButtonLabel,
-    @required this.customTitle,
+    @required this.alertTitle,
   });
 
   @override
@@ -44,7 +44,7 @@ class UpdateCupertinoAlert extends StatelessWidget {
     );
 
     return CupertinoAlertDialog(
-      title: Text(customTitle),
+      title: Text(alertTitle),
       content: Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Text(description),

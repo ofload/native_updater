@@ -1,3 +1,6 @@
+## [0.0.3] - 08/02/2021
+- Adding an option to change the Alert dialog tile
+
 ## [0.0.3] - 04/01/2020
 
 - Integrate In-App Update.

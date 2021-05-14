@@ -15,14 +15,14 @@ class UpdateCupertinoAlert extends StatelessWidget {
   final String alertTitle;
 
   UpdateCupertinoAlert({
-    @required this.forceUpdate,
-    @required this.appName,
-    @required this.appStoreUrl,
-    @required this.description,
-    @required this.updateButtonLabel,
-    @required this.closeButtonLabel,
-    @required this.ignoreButtonLabel,
-    @required this.alertTitle,
+    required this.forceUpdate,
+    required this.appName,
+    required this.appStoreUrl,
+    required this.description,
+    required this.updateButtonLabel,
+    required this.closeButtonLabel,
+    required this.ignoreButtonLabel,
+    required this.alertTitle,
   });
 
   @override

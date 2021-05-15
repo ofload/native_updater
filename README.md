@@ -59,6 +59,7 @@ NativeUpdater.displayUpdateAlert(
   iOSUpdateButtonLabel: '<Your iOS Update Button Label>',
   iOSCloseButtonLabel: '<Your iOS Close Button Label>',
   iOSIgnoreButtonLabel: '<Your iOS Ignore Button Label>',
+  iOSAlertTitle: '<Your Dialog Title>',
 );
 ```
 
@@ -78,11 +79,13 @@ NativeUpdater.displayUpdateAlert(
 
 **iOSDescription** is to use your custom alert description on `UpdateCupertinoAlert`. The default is `<App Name> requires that you update to the latest version. You cannot use this app until it is updated.` or `<App Name> recommends that you update to the latest version. You can keep using this app while downloading the update.`
 
-**iOSUpdateButtonLabel** is to use your custom Update Button Label on `UpdateCupertinoAlert`. The default is `Update`.
+**iOSUpdateButtonLabel** is used to set your custom Update Button Label on `UpdateCupertinoAlert`. The default is `Update`.
 
-**iOSCloseButtonLabel** is to use your custom Close Button Label on`UpdateCupertinoAlert`. The default is `Close App`.
+**iOSCloseButtonLabel** is used to set your custom Close Button Label on`UpdateCupertinoAlert`. The default is `Close App`.
 
-**iOSIgnoreButtonLabel** is to use your custom Ignore Button Label on`UpdateCupertinoAlert`. The default is `Later`.
+**iOSIgnoreButtonLabel** is used to set  your custom Ignore Button Label on`UpdateCupertinoAlert`. The default is `Later`.
+
+**iOSAlertTitle** is used to set your custom Dialog Title on`UpdateCupertinoAlert`. The default is `Update Available`.
 
 ## Full Example
 

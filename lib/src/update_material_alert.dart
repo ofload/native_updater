@@ -14,14 +14,14 @@ class UpdateMaterialAlert extends StatelessWidget {
   final String ignoreButtonLabel;
 
   UpdateMaterialAlert({
-    @required this.forceUpdate,
-    @required this.appName,
-    @required this.playStoreUrl,
-    @required this.titlePrefix,
-    @required this.description,
-    @required this.updateButtonLabel,
-    @required this.closeButtonLabel,
-    @required this.ignoreButtonLabel,
+    required this.forceUpdate,
+    required this.appName,
+    required this.playStoreUrl,
+    required this.titlePrefix,
+    required this.description,
+    required this.updateButtonLabel,
+    required this.closeButtonLabel,
+    required this.ignoreButtonLabel,
   });
 
   @override

@@ -5,8 +5,8 @@ class ErrorMaterialAlert extends StatelessWidget {
   final String description;
 
   ErrorMaterialAlert({
-    @required this.appName,
-    @required this.description,
+    required this.appName,
+    required this.description,
   });
 
   @override

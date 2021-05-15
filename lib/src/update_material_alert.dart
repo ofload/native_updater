@@ -14,33 +14,36 @@ class UpdateMaterialAlert extends StatelessWidget {
   final String ignoreButtonLabel;
 
   UpdateMaterialAlert({
-    @required this.forceUpdate,
-    @required this.appName,
-    @required this.playStoreUrl,
-    @required this.titlePrefix,
-    @required this.description,
-    @required this.updateButtonLabel,
-    @required this.closeButtonLabel,
-    @required this.ignoreButtonLabel,
+    required this.forceUpdate,
+    required this.appName,
+    required this.playStoreUrl,
+    required this.titlePrefix,
+    required this.description,
+    required this.updateButtonLabel,
+    required this.closeButtonLabel,
+    required this.ignoreButtonLabel,
   });
 
   @override
   Widget build(BuildContext context) {
     /// Set up the Buttons
-    Widget closeAppButton = FlatButton(
+    Widget closeAppButton = TextButton(
       child: Text(closeButtonLabel.toUpperCase()),
       onPressed: () => exit(0),
     );
 
-    Widget ignoreButton = FlatButton(
+    Widget ignoreButton = TextButton(
       child: Text(ignoreButtonLabel.toUpperCase()),
       onPressed: () => Navigator.pop(context),
     );
 
-    Widget updateButton = FlatButton(
-      child: Text(updateButtonLabel.toUpperCase()),
-      color: Colors.blue,
-      textColor: Colors.white,
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      backgroundColor: Colors.blue,
+    );
+
+    Widget updateButton = TextButton(
+      child: Text(updateButtonLabel.toUpperCase(), style: TextStyle(color: Colors.white)),
+      style: flatButtonStyle,
       onPressed: () => launch(playStoreUrl),
     );
 

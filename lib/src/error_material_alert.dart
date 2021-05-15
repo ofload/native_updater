@@ -11,11 +11,14 @@ class ErrorMaterialAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget closeButton = FlatButton(
-      child: Text('CLOSE'),
-      color: Colors.green,
-      textColor: Colors.white,
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      backgroundColor: Colors.green,
+    );
+
+    Widget closeButton = TextButton(
+      child: Text('CLOSE', style: TextStyle(color: Colors.white)),
       onPressed: () => Navigator.pop(context),
+      style: flatButtonStyle,
     );
 
     return AlertDialog(

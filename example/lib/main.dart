@@ -39,21 +39,21 @@ class _HomeState extends State<Home> {
 
     Future.delayed(Duration.zero, () {
       if (statusCode == 412) {
-        NativeUpdater.displayUpdateAlert(
-          context,
-          forceUpdate: true,
-          appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
-          iOSDescription: '<Your iOS description>',
-          iOSUpdateButtonLabel: 'Upgrade',
-          iOSCloseButtonLabel: 'Exit',
+        NativeUpdater.displayUpdateAlert(context,
+            forceUpdate: true,
+            appStoreUrl: '<Your App Store URL>',
+            iOSDescription: '<Your iOS description>',
+            iOSUpdateButtonLabel: 'Upgrade',
+            iOSCloseButtonLabel: 'Exit',
+            errorText: "Deu ruim",
+            errorCloseButtonLabel: "Fechar",
+            errorSubtitle: "Versao nao oficial"
         );
       } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: false,
           appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
           iOSDescription: '<Your description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSIgnoreButtonLabel: 'Next Time',

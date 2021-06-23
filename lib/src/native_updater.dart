@@ -109,8 +109,7 @@ class NativeUpdater {
     try {
       AppUpdateInfo _updateInfo = await InAppUpdate.checkForUpdate();
 
-      if (_updateInfo.updateAvailability ==
-          UpdateAvailability.updateAvailable) {
+      if (_updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
         if (_forceUpdate == true) {
           InAppUpdate.performImmediateUpdate()
               .catchError((e) => developer.log(e.toString()));

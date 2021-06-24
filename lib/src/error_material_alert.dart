@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class ErrorMaterialAlert extends StatelessWidget {
   final String appName;
   final String description;
+  final String? errorCloseButtonLabel;
+  final String? errorSubtitle;
 
   ErrorMaterialAlert({
     required this.appName,
     required this.description,
+    this.errorCloseButtonLabel,
+    this.errorSubtitle,
   });
 
   @override
@@ -16,7 +20,7 @@ class ErrorMaterialAlert extends StatelessWidget {
     );
 
     Widget closeButton = TextButton(
-      child: Text('CLOSE', style: TextStyle(color: Colors.white)),
+      child: Text(errorCloseButtonLabel ?? 'CLOSE', style: TextStyle(color: Colors.white)),
       onPressed: () => Navigator.pop(context),
       style: flatButtonStyle,
     );
@@ -28,7 +32,7 @@ class ErrorMaterialAlert extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Can\'t perform update.',
+            errorSubtitle ?? 'Can\'t perform update.',
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: 24.0),

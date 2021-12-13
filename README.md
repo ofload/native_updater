@@ -60,6 +60,12 @@ NativeUpdater.displayUpdateAlert(
   iOSCloseButtonLabel: '<Your iOS Close Button Label>',
   iOSIgnoreButtonLabel: '<Your iOS Ignore Button Label>',
   iOSAlertTitle: '<Your Dialog Title>',
+  iOSAlertTitle: '<Your Dialog Title>',
+  requireUpdateTextGenerator: (appName) => '<Your text Require Update Text Generator>',
+  recommendUpdateTextGenerator: (appName) => '<Your text Require Update Text Generator>',
+  errorTextGenerator: (appName) => '<Your text Require Update Text Generator>',
+  errorCloseButtonLabel: '<Your Error Close Button Label>',
+  errorSubtitle: '<Your Error Subtitle>',
 );
 ```
 

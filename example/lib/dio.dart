@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
     /// response of HTTP request.
     /// Let's say the statusCode 412 requires you to force update
     Future.delayed(Duration.zero, () {
-      if (statusCode == HttpStatus.unauthorized;) {
+      if (statusCode == HttpStatus.unauthorized) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: true,
@@ -36,6 +36,11 @@ class _HomeState extends State<Home> {
           iOSDescription: '<Your iOS description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
+          requireUpdateTextGenerator: (appName) => '$appName requires update',
+          recommendUpdateTextGenerator: (appName) => 'Please update $appName',
+          errorTextGenerator: (appName) => 'Sorry, we cannot update $appName',
+          errorCloseButtonLabel: 'Close',
+          errorSubtitle: 'Update is not possible',
         );
       }
     });

@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -20,6 +21,11 @@ class NativeUpdater {
   String? _iOSCloseButtonLabel;
   String? _iOSIgnoreButtonLabel;
   String? _iOSAlertTitle;
+  late String Function(String appName) _requireUpdateTextGenerator;
+  late String Function(String appName) _recommendUpdateTextGenerator;
+  late String Function(String appName) _errorTextGenerator;
+  String? _errorCloseButtonLabel;
+  String? _errorSubtitle;
 
   /// Singleton related
   static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
@@ -37,6 +43,23 @@ class NativeUpdater {
     String? iOSCloseButtonLabel,
     String? iOSIgnoreButtonLabel,
     String? iOSAlertTitle,
+
+    /// Function generates required update text using [appName]
+    ///
+    /// e.g. `(appName) => '$appName requires update'`
+    String Function(String appName)? requireUpdateTextGenerator,
+
+    /// Function generates recommend update text using [appName]
+    ///
+    /// e.g. `(appName) => 'Please update $appName'`
+    String Function(String appName)? recommendUpdateTextGenerator,
+
+    /// Function generates error text using [appName] if app update is not possible
+    ///
+    /// e.g. `(appName) => 'Sorry, we cannot update $appName'`
+    String Function(String appName)? errorTextGenerator,
+    String? errorCloseButtonLabel,
+    String? errorSubtitle,
   }) async {
     /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
@@ -52,6 +75,11 @@ class NativeUpdater {
     _nativeUpdaterInstance._iOSCloseButtonLabel = iOSCloseButtonLabel;
     _nativeUpdaterInstance._iOSIgnoreButtonLabel = iOSIgnoreButtonLabel;
     _nativeUpdaterInstance._iOSAlertTitle = iOSAlertTitle;
+    _nativeUpdaterInstance._requireUpdateTextGenerator = requireUpdateTextGenerator ?? (appName) => '$appName requires that you update to the latest version. You cannot use this app until it is updated.';
+    _nativeUpdaterInstance._recommendUpdateTextGenerator = recommendUpdateTextGenerator ?? (appName) => '$appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
+    _nativeUpdaterInstance._errorTextGenerator = errorTextGenerator ?? (appName) => 'This version of $appName was not installed from Google Play Store.';
+    _nativeUpdaterInstance._errorCloseButtonLabel = errorCloseButtonLabel;
+    _nativeUpdaterInstance._errorSubtitle = errorSubtitle;
 
     /// Show the alert based on current platform
     if (Platform.isIOS) {
@@ -66,11 +94,9 @@ class NativeUpdater {
     String selectedDefaultDescription;
 
     if (_forceUpdate) {
-      selectedDefaultDescription =
-          '$_appName requires that you update to the latest version. You cannot use this app until it is updated.';
+      selectedDefaultDescription = _requireUpdateTextGenerator(_appName);
     } else {
-      selectedDefaultDescription =
-          '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
+      selectedDefaultDescription = _recommendUpdateTextGenerator(_appName);
     }
 
     Widget alert = UpdateCupertinoAlert(
@@ -117,8 +143,9 @@ class NativeUpdater {
         builder: (BuildContext context) {
           return ErrorMaterialAlert(
             appName: _appName,
-            description:
-                'This version of $_appName was not installed from Google Play Store.',
+            description: _errorTextGenerator(_appName),
+            errorCloseButtonLabel:_errorCloseButtonLabel,
+            errorSubtitle: _errorSubtitle,
           );
         },
       );

@@ -12,6 +12,7 @@ class UpdateMaterialAlert extends StatelessWidget {
   final String updateButtonLabel;
   final String closeButtonLabel;
   final String ignoreButtonLabel;
+  final String newVersionLabel;
 
   UpdateMaterialAlert({
     required this.forceUpdate,
@@ -22,6 +23,7 @@ class UpdateMaterialAlert extends StatelessWidget {
     required this.updateButtonLabel,
     required this.closeButtonLabel,
     required this.ignoreButtonLabel,
+    this.newVersionLabel = 'New version available'
   });
 
   @override
@@ -55,7 +57,7 @@ class UpdateMaterialAlert extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'New version available',
+            newVersionLabel,
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: 24.0),

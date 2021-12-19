@@ -46,6 +46,9 @@ class _HomeState extends State<Home> {
           iOSDescription: '<Your iOS description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
+          errorText: "Error",
+          errorCloseButtonLabel: "Close",
+          errorSubtitle: "This version of the app isn't legit"
         );
       } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(

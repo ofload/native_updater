@@ -19,6 +19,11 @@ class NativeUpdater {
   String? _iOSCloseButtonLabel;
   String? _iOSIgnoreButtonLabel;
   String? _iOSAlertTitle;
+  String? _requireUpdateText;
+  String? _recommendUpdateText;
+  String? _errorText;
+  String? _errorCloseButtonLabel;
+  String? _errorSubtitle;
 
   /// Singleton related
   static final NativeUpdater _nativeUpdaterInstance = NativeUpdater._internal();
@@ -35,6 +40,11 @@ class NativeUpdater {
     String? iOSCloseButtonLabel,
     String? iOSIgnoreButtonLabel,
     String? iOSAlertTitle,
+    String? requireUpdateText,
+    String? recommendUpdateText,
+    String? errorText,
+    String? errorCloseButtonLabel,
+    String? errorSubtitle,
   }) async {
     /// Get current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
@@ -49,7 +59,11 @@ class NativeUpdater {
     _nativeUpdaterInstance._iOSCloseButtonLabel = iOSCloseButtonLabel;
     _nativeUpdaterInstance._iOSIgnoreButtonLabel = iOSIgnoreButtonLabel;
     _nativeUpdaterInstance._iOSAlertTitle = iOSAlertTitle;
-
+    _nativeUpdaterInstance._requireUpdateText = requireUpdateText ?? 'requires that you update to the latest version. You cannot use this app until it is updated.';
+    _nativeUpdaterInstance._recommendUpdateText = recommendUpdateText ?? 'recommends that you update to the latest version. You can keep using this app while downloading the update.';
+    _nativeUpdaterInstance._errorText = errorText;
+    _nativeUpdaterInstance._errorCloseButtonLabel = errorCloseButtonLabel;
+    _nativeUpdaterInstance._errorSubtitle = errorSubtitle;
     /// Show the alert based on current platform
     if (Platform.isIOS) {
       _nativeUpdaterInstance._showCupertinoAlertDialog();
@@ -64,10 +78,10 @@ class NativeUpdater {
 
     if (_forceUpdate) {
       selectedDefaultDescription =
-          '$_appName requires that you update to the latest version. You cannot use this app until it is updated.';
+          '$_appName $_requireUpdateText';
     } else {
       selectedDefaultDescription =
-          '$_appName recommends that you update to the latest version. You can keep using this app while downloading the update.';
+          '$_appName $_recommendUpdateText';
     }
 
     Widget alert = UpdateCupertinoAlert(
@@ -113,7 +127,9 @@ class NativeUpdater {
           return ErrorMaterialAlert(
             appName: _appName,
             description:
-                'This version of $_appName was not installed from Google Play Store.',
+                _errorText ?? 'This version of $_appName was not installed from Google Play Store.',
+            errorCloseButtonLabel:_errorCloseButtonLabel,
+            errorSubtitle: _errorSubtitle,
           );
         },
       );

@@ -43,17 +43,18 @@ class _HomeState extends State<Home> {
           context,
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
           iOSDescription: '<Your iOS description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
+          errorText: "Error",
+          errorCloseButtonLabel: "Close",
+          errorSubtitle: "This version of the app isn't legit"
         );
       } else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: false,
           appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
           iOSDescription: '<Your description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSIgnoreButtonLabel: 'Next Time',

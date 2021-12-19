@@ -1,3 +1,9 @@
+## [0.1.1] - 19/12/2021
+
+- Keeping dependencies up-to-date
+- More flexibility on hard-coded text messages
+- Improving example code
+
 ## [0.1.0] - 16/05/2021
 This is a major change as we are forcing an upgrade on the SDK.
 

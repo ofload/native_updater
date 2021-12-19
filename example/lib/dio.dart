@@ -32,7 +32,6 @@ class _HomeState extends State<Home> {
           context,
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
           iOSDescription: '<Your iOS description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',

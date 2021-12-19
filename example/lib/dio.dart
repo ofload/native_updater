@@ -27,12 +27,11 @@ class _HomeState extends State<Home> {
     /// response of HTTP request.
     /// Let's say the statusCode 412 requires you to force update
     Future.delayed(Duration.zero, () {
-      if (statusCode == HttpStatus.unauthorized;) {
+      if (statusCode == HttpStatus.unauthorized) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: true,
           appStoreUrl: '<Your App Store URL>',
-          playStoreUrl: '<Your Play Store URL>',
           iOSDescription: '<Your iOS description>',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
@@ -48,7 +47,7 @@ class _HomeState extends State<Home> {
         title: Text('Your App'),
       ),
       body: Center(
-        child: FlatButton(
+        child: TextButton(
             onPressed: requestAPI,
             child: Text('Request API')
         ),
@@ -56,7 +55,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  requestAPI() {
+  requestAPI() async {
     var dio = Dio(BaseOptions(
       baseUrl: 'http://httpbin.org/',
     ));

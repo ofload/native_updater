@@ -17,6 +17,7 @@ dependencies:
   url_launcher: ^6.0.10
   # Enables In App Updates on Android using the official Android APIs.
   in_app_update: ^4.0.1
+  dio: ^5.2.1+1
 
 dev_dependencies:
   flutter_test:
